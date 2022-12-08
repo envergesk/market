@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.kildeev.market.dtos.JwtRequest;
 import ru.kildeev.market.dtos.JwtResponse;
+import ru.kildeev.market.dtos.StringResponse;
 import ru.kildeev.market.services.UserService;
 import ru.kildeev.market.utils.JwtTokenUtil;
+
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,6 +41,11 @@ public class AuthController {
     @GetMapping("/secured")
     public String helloSecurity(){
         return "hello";
+    }
+
+    @GetMapping("/auth_check")
+    public StringResponse authCheck(Principal principal) {
+        return new StringResponse(principal.getName());
     }
 
 }

@@ -1,4 +1,4 @@
-package ru.kildeev.market.dtos;
+package ru.kildeev.market.models;
 
 import lombok.Data;
 import ru.kildeev.market.entities.Product;

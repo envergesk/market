@@ -1,4 +1,4 @@
-package ru.kildeev.market.dtos;
+package ru.kildeev.market.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

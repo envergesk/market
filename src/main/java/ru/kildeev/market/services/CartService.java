@@ -2,13 +2,11 @@ package ru.kildeev.market.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.kildeev.market.dtos.Cart;
-import ru.kildeev.market.dtos.CartItem;
+import ru.kildeev.market.models.Cart;
 import ru.kildeev.market.entities.Product;
 import ru.kildeev.market.exceptions.ResourceNotFoundException;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
