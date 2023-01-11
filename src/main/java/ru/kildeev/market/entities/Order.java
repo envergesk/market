@@ -1,5 +1,6 @@
 package ru.kildeev.market.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -7,23 +8,35 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
+@Table(name = "orders")
 @Data
-@Table(name = "products")
 @NoArgsConstructor
-public class Product {
+@AllArgsConstructor
+public class Order {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "id")
     private Long id;
 
-    @Column(name = "title")
-    private String title;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "price")
-    private int price;
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems;
+
+    @Column(name = "total_price")
+    private int totalPrice;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "phone")
+    private String phone;
 
     @CreationTimestamp
     @Column(name = "created_at")
