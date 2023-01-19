@@ -6,7 +6,7 @@ import ru.kildeev.market.api.ProductDto;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+//TODO: class To entity
 @Data
 public class Cart {
     private List<CartItem> items;

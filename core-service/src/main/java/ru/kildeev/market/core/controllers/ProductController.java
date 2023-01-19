@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.kildeev.market.api.ProductDto;
 import ru.kildeev.market.api.ResourceNotFoundException;
 import ru.kildeev.market.core.converters.ProductConverter;
-import ru.kildeev.market.core.entities.Product;
 import ru.kildeev.market.core.services.ProductService;
 
 
@@ -22,7 +21,7 @@ public class ProductController {
 
     @GetMapping
     public List<ProductDto> findAllProducts(){
-        return productService.findAll().stream().map(productConverter::entityToDto).collect(Collectors.toList());
+        return productService.getAll().stream().map(productConverter::entityToDto).collect(Collectors.toList());
     }
 
 //    @GetMapping("/{id}")
@@ -36,8 +35,9 @@ public class ProductController {
 //    }
 
     @GetMapping("/{id}")
-    public Product findProductById(@PathVariable Long id) {
-        return productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id:" + id));
+    public ProductDto findProductById(@PathVariable Long id) {
+        //ProductToDto
+        return productService.getById(id);
     }
 
     @DeleteMapping("/{id}")
@@ -46,3 +46,5 @@ public class ProductController {
     }
 
 }
+
+

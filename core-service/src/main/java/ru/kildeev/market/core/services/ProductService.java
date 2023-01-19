@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kildeev.market.api.ProductDto;
 import ru.kildeev.market.api.ResourceNotFoundException;
+import ru.kildeev.market.core.converters.ProductConverter;
 import ru.kildeev.market.core.entities.Category;
 import ru.kildeev.market.core.entities.Product;
 import ru.kildeev.market.core.repositories.ProductRepository;
@@ -19,13 +20,15 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
+    private final ProductConverter productConverter;
 
-    public List<Product> findAll(){
+    public List<Product> getAll(){
         return productRepository.findAll();
     }
 
-    public Optional<Product> findById(Long id) {
-        return productRepository.findById(id);
+    public ProductDto getById(Long id) {
+        return productConverter.entityToDto(productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id:" + id)));
     }
 
     public void deleteById(Long id) {

@@ -23,6 +23,7 @@ public class CartService {
     }
 
     public Cart getCurrentCart() {
+        //Сделать запрос в бд
         return tempCart;
     }
 
@@ -38,4 +39,7 @@ public class CartService {
     public void remove(Long productId) {
         tempCart.remove(productId);
     }
+
+    //TODO: isAvailable
+
 }
