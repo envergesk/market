@@ -12,6 +12,7 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class OrderController {
 
     private final UserService userService;
