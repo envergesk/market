@@ -1,6 +1,6 @@
 angular.module('app', ['ngStorage']).controller('indexController', function ($scope, $http, $localStorage) {
     $scope.tryToAuth = function () {
-        $http.post('http://localhost:5555/core/auth', $scope.user)
+        $http.post('http://localhost:5555/auth/auth', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
                     console.log($http);
@@ -32,26 +32,20 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
         }
     };
 
-    $scope.authCheck = function () {
-        $http.get('http://localhost:5555/core/auth_check').then(function (response) {
-            alert(response.data.value);
-        });
-
-        if ($localStorage.marketUser) {
-            try {
-                let jwt = $localStorage.marketUser.token;
-                let payload = JSON.parse(atob(jwt.split('.')[1]));
-                let currentTime = parseInt(new Date().getTime() / 1000);
-                if (currentTime > payload.exp) {
-                    console.log("Token is expired!!");
-                    delete $localStorage.marketUser;
-                    $http.defaults.headers.common.Authorization = '';
-                }
-            } catch (e) {
+    if ($localStorage.marketUser) {
+        try {
+            let jwt = $localStorage.marketUser.token;
+            let payload = JSON.parse(atob(jwt.split('.')[1]));
+            let currentTime = parseInt(new Date().getTime() / 1000);
+            if (currentTime > payload.exp) {
+                console.log("Token is expired!!");
+                delete $localStorage.marketUser;
+                $http.defaults.headers.common.Authorization = '';
             }
-
-            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.marketUser.token;
+        } catch (e) {
         }
+
+        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.marketUser.token;
     }
 
     $scope.loadProducts = function () {
@@ -64,6 +58,7 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
     $scope.createOrder = function () {
         $http.post('http://localhost:5555/core/api/v1/orders/').then(function (response) {
             alert('Order created');
+            $scope.loadCart();
         });
     }
 
