@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
     "title",
     "price"
 })
-public class Product {
+public class ProductSoap {
 
     protected long id;
     @XmlElement(required = true)

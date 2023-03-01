@@ -23,7 +23,6 @@ public class CartService {
     }
 
     public Cart getCurrentCart() {
-        //Сделать запрос в бд
         return tempCart;
     }
 
