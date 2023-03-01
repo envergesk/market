@@ -1,4 +1,4 @@
-package ru.kildeev.market.core.services;
+package ru.kildeev.market.auth.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,9 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.kildeev.market.core.entities.Role;
-import ru.kildeev.market.core.entities.User;
-import ru.kildeev.market.core.repositories.UserRepository;
+import ru.kildeev.market.auth.entities.Role;
+import ru.kildeev.market.auth.entities.User;
+import ru.kildeev.market.auth.repositories.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
@@ -27,8 +27,8 @@ public class UserService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername (String username) throws UsernameNotFoundException{
-        User user = this.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 

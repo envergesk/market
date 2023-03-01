@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
 public class GetAllProductsResponse {
 
     @XmlElement(required = true)
-    protected List<Product> products;
+    protected List<ProductSoap> products;
 
     /**
      * Gets the value of the products property.
@@ -64,13 +64,13 @@ public class GetAllProductsResponse {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Product }
+     * {@link ProductSoap }
      * 
      * 
      */
-    public List<Product> getProducts() {
+    public List<ProductSoap> getProducts() {
         if (products == null) {
-            products = new ArrayList<Product>();
+            products = new ArrayList<ProductSoap>();
         }
         return this.products;
     }

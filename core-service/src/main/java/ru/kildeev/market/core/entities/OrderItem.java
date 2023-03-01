@@ -3,6 +3,7 @@ package ru.kildeev.market.core.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.kildeev.market.api.ProductDto;
 
 import javax.persistence.*;
 
@@ -34,4 +35,12 @@ public class OrderItem {
 
     @Column(name = "price")
     private int price;
+
+    public OrderItem(Product product, Order order, int quantity, int pricePerProduct, int price) {
+        this.product = product;
+        this.order = order;
+        this.quantity = quantity;
+        this.pricePerProduct = pricePerProduct;
+        this.price = price;
+    }
 }

@@ -1,4 +1,4 @@
-package ru.kildeev.market.core.controllers;
+package ru.kildeev.market.auth.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -7,22 +7,19 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.kildeev.market.api.AppError;
 import ru.kildeev.market.api.JwtRequest;
 import ru.kildeev.market.api.JwtResponse;
-import ru.kildeev.market.api.StringResponse;
-import ru.kildeev.market.core.services.UserService;
-import ru.kildeev.market.core.utils.JwtTokenUtil;
-
-
-import java.security.Principal;
+import ru.kildeev.market.auth.services.UserService;
+import ru.kildeev.market.auth.utils.JwtTokenUtil;
 
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
+
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
@@ -32,21 +29,10 @@ public class AuthController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return new ResponseEntity<>(new AppError(HttpStatus.UNAUTHORIZED.value(), "Incorrect username or password"), HttpStatus.UNAUTHORIZED);
         }
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
-
-    @GetMapping("/secured")
-    public String helloSecurity(){
-        return "hello";
-    }
-
-    @GetMapping("/auth_check")
-    public StringResponse authCheck(Principal principal) {
-        return new StringResponse(principal.getName());
-    }
-
 }

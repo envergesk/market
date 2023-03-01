@@ -1,4 +1,4 @@
-package ru.kildeev.market.core.utils;
+package ru.kildeev.market.auth.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
@@ -21,7 +20,7 @@ public class JwtTokenUtil {
     private String secret;
 
     @Value("${jwt.lifetime}")
-    private Integer jwtLifeTime;
+    private Integer jwtLifetime;
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
@@ -31,8 +30,7 @@ public class JwtTokenUtil {
         claims.put("roles", rolesList);
 
         Date issuedDate = new Date();
-        Date expiredDate = new Date(issuedDate.getTime() + jwtLifeTime);
-
+        Date expiredDate = new Date(issuedDate.getTime() + jwtLifetime);
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
@@ -42,23 +40,18 @@ public class JwtTokenUtil {
                 .compact();
     }
 
-    public String getUsernameFromToken (String token) {
-        return getAllClaimsFromToken(token).getSubject();
-    }
-
-    public List<String> getRoles(String token){
-        return getAllClaimsFromToken(token).get("roles", List.class);
-    }
-
-    /*private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver){
-        Claims claims = getAllClaimsFromToken(token);
-        return claimsResolver.apply(claims);
-    }*/
-
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public String getUsernameFromToken(String token) {
+        return getAllClaimsFromToken(token).getSubject();
+    }
+
+    public List<String> getRoles(String token) {
+        return getAllClaimsFromToken(token).get("roles", List.class);
     }
 }

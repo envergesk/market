@@ -23,12 +23,11 @@ public class CartService {
     }
 
     public Cart getCurrentCart() {
-        //Сделать запрос в бд
         return tempCart;
     }
 
     public void add(Long productId) {
-        ProductDto product = productServiceIntegration.getProductById(productId).orElseThrow(() -> new ResourceNotFoundException("Продукт с таким id не найден, id" + productId));
+        ProductDto product = productServiceIntegration.getProductById(productId);
         tempCart.add(product);
     }
 

@@ -20,48 +20,20 @@ insert into categories (title) values ('Еда');
 
 insert into products (title, price, category_id)
 values ('Молоко', 100.20, 1),
+       ('Молоко2', 66.20, 1),
+       ('Молоко3', 76.20, 1),
+       ('Молоко4', 122.20, 1),
+       ('Молоко5', 321.20, 1),
+       ('Молоко6', 88.20, 1),
+       ('Молоко7', 100.20, 1),
        ('Хлеб', 80.20, 1),
        ('Сыр', 90.20, 1),
        ('Масло', 320.00, 1);
 
-create table users
-(
-    id          bigserial primary key,
-    username    varchar(36) not null,
-    password    varchar(80) not null,
-    created_at  timestamp default current_timestamp,
-    updated_at  timestamp default current_timestamp
-);
-
-create table roles
-(
-    id          bigserial primary key,
-    name        varchar(36) not null
-);
-
-create table users_roles
-(
-    user_id     bigint not null references users(id),
-    role_id     bigint not null references roles(id),
-    primary key (user_id, role_id)
-);
-
-insert into roles(name)
-values ('ROLE_USER'),
-       ('ROLE_ADMIN');
-
-insert into users (username, password)
-values ('bob', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i'),
-       ('jack', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i');
-
-insert into users_roles(user_id, role_id)
-values (1, 1),
-       (2, 2);
-
 create table orders
 (
     id          bigserial primary key,
-    user_id     bigint  not null references users (id),
+    username    varchar(255),
     total_price int not null,
     address     varchar(255),
     phone       varchar(255),
