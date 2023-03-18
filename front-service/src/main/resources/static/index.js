@@ -18,6 +18,10 @@
                 templateUrl: 'cart/cart.html',
                 controller: 'cartController'
             })
+            .when('/orders', {
+                templateUrl: 'orders/orders.html',
+                controller: 'ordersController'
+            })
             .otherwise({
             redirectTo: '/'
             });
@@ -38,7 +42,12 @@
             }
 
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.marketUser.token;
-
+        }
+        if(!$localStorage.marketGuestCartId) {
+            $http.get('http://localhost:5555/cart/api/v1/cart/generate_uuid')
+                .then(function successCallback(response){
+                    $localStorage.marketGuestCartId = response.data.value;
+                });
         }
     }
 })();

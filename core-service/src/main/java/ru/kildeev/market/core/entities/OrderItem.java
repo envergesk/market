@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import ru.kildeev.market.api.ProductDto;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -31,12 +32,12 @@ public class OrderItem {
     private int quantity;
 
     @Column(name = "price_per_product")
-    private int pricePerProduct;
+    private BigDecimal pricePerProduct;
 
     @Column(name = "price")
-    private int price;
+    private BigDecimal price;
 
-    public OrderItem(Product product, Order order, int quantity, int pricePerProduct, int price) {
+    public OrderItem(Product product, Order order, int quantity, BigDecimal pricePerProduct, BigDecimal price) {
         this.product = product;
         this.order = order;
         this.quantity = quantity;
