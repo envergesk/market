@@ -3,24 +3,21 @@ package ru.kildeev.market.carts.models;
 import lombok.Data;
 import ru.kildeev.market.api.ProductDto;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-//TODO: class To entity
 @Data
 public class Cart {
     private List<CartItem> items;
-    private int totalPrice;
+
+    private BigDecimal totalPrice;
 
     public Cart() {
         this.items = new ArrayList<>();
     }
 
-    public List<CartItem> getItems() {
-        return Collections.unmodifiableList(items);
-    }
-
-    public void add(ProductDto product) { //TODO: Доработать из списка -> множество со счетчиком
+    public void add(ProductDto product) {
         for (CartItem item : items) {
             if (product.getId().equals(item.getProductId())) {
                 item.changeQuantity(1);
@@ -40,13 +37,14 @@ public class Cart {
 
     public void clear() {
         items.clear();
-        totalPrice = 0;
+        totalPrice = BigDecimal.ZERO;
     }
 
     private void recalculate() {
-        totalPrice = 0;
+        totalPrice = BigDecimal.ZERO;
         for (CartItem item : items) {
-            totalPrice += item.getPrice();
+            totalPrice = totalPrice.add(item.getPrice());
+
         }
     }
 }
