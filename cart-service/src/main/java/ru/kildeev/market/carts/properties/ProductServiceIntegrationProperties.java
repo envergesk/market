@@ -12,5 +12,4 @@ public class ProductServiceIntegrationProperties {
     private Integer connectTimeout;
     private Integer readTimeout;
     private Integer writeTimeout;
-
 }
